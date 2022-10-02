@@ -1,0 +1,203 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2ndPage</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body>
+    <style>
+        body{
+            /* background-color: aqua; */
+            background-image: linear-gradient(to bottom right, rgb(81, 5, 69), rgb(38, 1, 51));
+            justify-content: center;
+        }
+
+        .container{
+            height: auto;
+            width: 450px;
+            background-image: linear-gradient(to bottom right, rgb(23, 189, 173), rgb(5, 51, 62));
+            margin-top: 60px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #new{
+            height: 42px;
+            width: 450px;
+            background-image: linear-gradient(to bottom right, rgb(23, 189, 173), rgb(5, 51, 62));
+            margin-top: 15px;
+            border-radius: 8px;
+            
+            padding: 5px;
+        }
+
+        h2{
+            text-align: center;
+            font-family:cursive;
+            font-weight: 700;
+        }
+
+        img{
+            height: 150px;
+            width: 200px;
+        }
+
+        #input{
+            width: 315px;
+            float: left;
+        }
+
+       
+        
+    </style>
+
+    <div class="container">
+        <h2>Upload news</h2><br>
+        
+        
+        <img src="" id="image" alt=""> <br><br> 
+        <button class="btn btn-primary" onclick="image()">Add Image</button> <br><br>
+        <input type="text" placeholder="Headline" id="txt1" class="form-control"> <br>
+        <textarea name="" id="txt2" cols="20" rows="5" placeholder="Write news here" class="form-control" ></textarea><br>
+        <input type="text" placeholder="Enter id" class="form-control" id="txtId"> <br> 
+        <button class="btn btn-success" onclick="publish()">Publish</button> <br> <br>
+    </div>
+
+    <div class="navbar navbar-fixed-top navbar-inverse">
+            
+        <br>
+            <ul>
+                <a href="newfile.html">Log-out</a>
+            </ul>
+        
+        
+    </div>  
+
+    
+</div>
+<div class="container" id="new">
+    <input type="text" placeholder="Enter ID here" class="form-control" id="input">
+    <button class="btn btn-primary" onclick="edit()">Edit</button>
+    <button class="btn btn-danger">Delete</button> <br><br>
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+
+    <script>
+
+            var firebaseConfig = {
+            apiKey: "AIzaSyAsGDlpb612Ba3u73oiZ-rxtitxdIxeuRw",
+            authDomain: "new-website-f7e63.firebaseapp.com",
+            databaseURL: "https://new-website-f7e63-default-rtdb.firebaseio.com",
+            projectId: "new-website-f7e63",
+            storageBucket: "new-website-f7e63.appspot.com",
+            messagingSenderId: "1094230349172",
+            appId: "1:1094230349172:web:8622c755523fa577064821"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+
+        function publish()
+        {
+            var photo = firebase.storage().ref(`/news/` +files[0].id).put(files[0])
+            photo.snapshot.ref.getDownloadURL().then((result) => {
+            headline = document.getElementById("txt1").value
+            news = document.getElementById("txt2").value
+            id = document.getElementById("txtId").value
+
+
+            var obj = {}
+            obj.headline = headline
+            obj.news = news
+            obj.id = id
+            
+            obj.path = result
+
+            firebase.database().ref(`/News/` +id).set(obj)
+            alert("Data saved")
+            clear()
+            }).catch((err) =>{
+
+            })
+
+            
+
+            
+            
+            
+        }
+
+        function move ()
+            {
+                window.location.href = `newfile.html`
+            }
+
+            publish(move)
+
+        function image()
+        {
+            input = document.createElement("input")
+            input.type = "file"
+            input.click()
+
+            input.onchange = function (x)
+            {
+                files = x.target.files
+                read = new FileReader()
+                read.readAsDataURL(files[0])
+                read.onload = function()
+
+                {
+                    document.getElementById("image").src = read.result
+                }
+
+            }
+        }
+
+        function clear()
+        {
+            document.getElementById("txt1").value = ""
+            document.getElementById("txt2").value = ""
+            document.getElementById("txtId").value = ""
+        }
+        
+        function edit()
+        
+        {
+            data = document.getElementById("input").value 
+            firebase.database().ref(`/News/`).once("value", function (AllRecord) {
+
+            AllRecord.forEach(function (snapshot) {
+            naw(snapshot.val().headline,snapshot.val().news,snapshot.val().id)
+            })
+            })
+
+            
+        }
+
+        function naw(headline, news, id)
+        {
+            document.getElementById("txt1").value = headline
+            document.getElementById("txt2").value = news
+            document.getElementById("txtId").value = id
+            publish()
+        }
+   </script>
+       
+</body>
+</html>

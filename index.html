@@ -1,0 +1,169 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1stPage</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body id="body">
+    <style>
+        body{
+            /* background-color: aqua; */
+            background-image: linear-gradient(to bottom right, rgb(81, 5, 69), rgb(38, 1, 51));
+            justify-content: center;
+        }
+        .container{
+            height: auto;
+            width: 450px;
+            background-image: linear-gradient(to bottom right, rgb(88, 59, 0), rgb(130, 134, 15));
+            margin-top: 220px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        h2{
+            text-align: center;
+            font-family:cursive;
+            font-weight: 700;
+        }
+
+        #div2{
+            height: 280px;
+            width: 98%;
+            background-image: linear-gradient(to bottom right, rgb(14, 41, 65), rgb(3, 79, 88));
+            background-color: whitesmoke;
+            border-radius: 8px;
+            
+            margin: 8px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            
+
+        }
+
+        /* #login{
+            margin-top: 0px;
+            margin-right: 0px;
+        } */
+
+        #navbar{
+            margin-top: 0px;
+        }
+    </style>
+    <div class="container">
+        <h2>News at Glance</h2>
+        <div id="div2" onclick = "show()">
+        </div>
+    </div>
+    
+    
+        <div class="navbar navbar-fixed-top navbar-inverse">
+             <br>
+                <ul>
+                    <a href="signup.html">Login</a>
+                </ul>
+                
+            </div>  
+        </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-storage.js"></script>
+
+    
+    <script>
+            var firebaseConfig = {
+            apiKey: "AIzaSyAsGDlpb612Ba3u73oiZ-rxtitxdIxeuRw",
+            authDomain: "new-website-f7e63.firebaseapp.com",
+            databaseURL: "https://new-website-f7e63-default-rtdb.firebaseio.com",
+            projectId: "new-website-f7e63",
+            storageBucket: "new-website-f7e63.appspot.com",
+            messagingSenderId: "1094230349172",
+            appId: "1:1094230349172:web:8622c755523fa577064821"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            show()
+
+
+        // function login()
+        // {
+        //     ame = document.createElement("input")
+        //     ame.setAttribute("type","input")
+        //     ame.setAttribute("placeholder","Enter name")
+        //     document.getElementById("login").appendChild(ame) 
+
+        //     id = document.createElement("input")
+        //     id.setAttribute("type","input")
+        //     id.setAttribute("placeholder","Enter Password")
+        //     document.getElementById("login").appendChild(id)
+            
+        //     var x = `Amit`
+        //     var y = `1625`
+
+
+        // }
+
+       function show()
+       {
+
+        document.getElementById("div2").innerHTML = ""
+        
+        firebase.database().ref(`/News/`).once("value", function (AllRecord) {
+
+       AllRecord.forEach(function (snapshot) {
+        addItem(snapshot.val().id,snapshot.val().news,snapshot.val().headline)
+        })
+        })
+
+        //alert("hii")
+       }
+
+       function addItem(id, news, headline)
+       {
+        span = document.createElement("div")
+        marquee = document.createElement("marquee")
+        //span.setAttribute("type", "span")
+        span.style.height = "24px"
+        span.style.width = "95%"
+        span.style.textAlign = "left"
+        span.style.padding = "5px"
+        marquee.style.direction = "left"
+        
+
+        
+        
+        span.style.margin = "10px"
+        span.style.marginTop = "10px"
+        span.style.backgroundColor = "white"
+        span.style.overflow = "hidden"
+        span.style.borderRadius = "3px"
+
+       
+
+       
+        span.innerHTML =  headline +" - "+ news
+        
+        
+       
+        document.getElementById("div2").appendChild(span)
+
+       }
+
+    </script>
+
+</body>
+</html>

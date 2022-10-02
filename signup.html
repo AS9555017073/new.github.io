@@ -1,0 +1,99 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+
+<body>
+    <style>
+        body {
+            /* background-color: aqua; */
+            background-image: linear-gradient(to bottom right, rgb(81, 5, 69), rgb(38, 1, 51));
+            justify-content: center;
+        }
+
+        .container {
+            height: auto;
+            width: 450px;
+            background-image: linear-gradient(to bottom right, rgb(7, 67, 100), rgb(185, 218, 219));
+            margin-top: 150px;
+            border-radius: 8px;
+
+        }
+
+        h2 {
+            text-align: center;
+            font-family: cursive;
+            font-weight: 700;
+        }
+
+        #passed{
+            height: auto;
+            width: 450px;
+            color: black;
+           
+            margin-top: 50px;
+            border-radius: 8px;
+        }
+    </style>
+
+            <div class="navbar navbar-fixed-top navbar-inverse">
+            
+                <br>
+        <ul>
+            <a href="newfile.html">Home</a>
+        </ul>
+    
+    
+</div>  
+
+    
+        <div class="container">
+            <h2>Login Panel</h2>
+        Enter your name
+        <input type="text" id="txtname" class="form-control"> <br>
+        Password
+        <input type="text" id="txtpass" class="form-control"> <br>
+
+        <button class="btn btn-primary" onclick="login()">Login</button> <br> <br>
+
+        </div>
+
+        <div class="container" id="passed">
+            Name: user <br>
+            Password : admin
+        </div>
+
+
+    
+
+    <script>
+        function login()
+         {
+            var a = `user`
+            var b = `admin`
+
+
+
+            name = document.getElementById("txtname").value
+            password = document.getElementById("txtpass").value
+
+            if (a == name && b == password) {
+                window.location.href = `newfile02.html`
+
+            }
+
+            else {
+                alert("Invalid User-id or Password")
+                return;
+            }
+
+        }
+    </script>
+</body>
+
+</html>
